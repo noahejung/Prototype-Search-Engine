@@ -1,5 +1,2 @@
-# CS50 TSE
-## noahejung
-
-## Assumptions
-No assumptions made
+Prototype Search Engine
+## Noah Jung
