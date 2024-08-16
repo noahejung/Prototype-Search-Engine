@@ -1,0 +1,1005 @@
+ml () {  module ml "$@"
+}
+module () {  _module_raw "$@" 2>&1
+}
+_module_raw () {  eval `/usr/bin/tclsh8.6 /usr/lib/x86_64-linux-gnu/modulecmd.tcl bash "$@"`;
+ _mlstatus=$?;
+ return $_mlstatus
+}
+# test for the 'querier' module
+
+# test case with missing parameters
+echo "missing parameters"
+missing parameters
+echo "breadth and first" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 
+expected 2 args, received 1
+echo "breadth and first" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2.index
+expected 2 args, received 1
+
+# test case with wrong incorrect parameters
+echo "incorrect parameters"
+incorrect parameters
+echo "breadth and first" | ./querier ~/cs50-dev/shared/tse/output/-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+/thayerfs/home/f006bd4/cs50-dev/shared/tse/output/-2/.crawler not found 
+error validating pageDirectory as a crawler directory
+echo "breadth and first" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikndex
+indexFile could not be read
+
+# test with incorrect usages of and/or
+echo "misusage or and/or"
+misusage or and/or
+echo "and dog and first" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+cannot have 'and' or 'or' at the beginning of the query
+|and|dog|and|first|
+echo "breadth or" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+cannot have 'and' or 'or' at the end of the query
+|breadth|or|
+echo "dog and and cat" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+cannot have 'and' and/or 'or' back to back
+|dog|and|and|cat|
+
+# test with ands
+echo "ands"
+ands
+echo "breadth and first" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|breadth|and|first|
+rank: 8 | docID: 47 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_tree.html
+rank: 3 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 2 | docID: 21 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tree_(data_structure).html
+rank: 1 | docID: 5 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_decision_diagram.html
+rank: 1 | docID: 6 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graph_(abstract_data_type).html
+rank: 1 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+echo "computer and science and department" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|computer|and|science|and|department|
+rank: 7 | docID: 255 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Swarthmore_College.html
+rank: 6 | docID: 246 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St.html
+rank: 5 | docID: 212 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+rank: 4 | docID: 38 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Donald_Knuth.html
+rank: 4 | docID: 130 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/NIST.html
+rank: 3 | docID: 116 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/RAND_Corporation.html
+rank: 3 | docID: 221 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Saint_Anselm_College.html
+rank: 3 | docID: 225 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lebanon_College.html
+rank: 3 | docID: 250 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clarkson_Golden_Knights.html
+rank: 2 | docID: 2 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+rank: 2 | docID: 76 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tail-sharing.html
+rank: 2 | docID: 104 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/MIT_Lincoln_Laboratory.html
+rank: 2 | docID: 107 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linguistics.html
+rank: 2 | docID: 117 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Herbert_A.html
+rank: 2 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+rank: 2 | docID: 128 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+rank: 2 | docID: 136 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clifford_Stein.html
+rank: 2 | docID: 207 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computing.html
+rank: 2 | docID: 218 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Keene_State_College.html
+rank: 1 | docID: 4 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Directed_acyclic_word_graph.html
+rank: 1 | docID: 7 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_tree_(persistent_data_structure).html
+rank: 1 | docID: 25 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hashed_array_tree.html
+rank: 1 | docID: 40 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_H.html
+rank: 1 | docID: 42 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ronald_L.html
+rank: 1 | docID: 56 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Functional_programming_language.html
+rank: 1 | docID: 57 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Programming_language.html
+rank: 1 | docID: 59 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_memory_allocation.html
+rank: 1 | docID: 95 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_array.html
+rank: 1 | docID: 102 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Motorola_6800.html
+rank: 1 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 1 | docID: 121 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_structure.html
+rank: 1 | docID: 131 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sartaj_Sahni.html
+rank: 1 | docID: 132 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pedro_Celis.html
+rank: 1 | docID: 135 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Karl_Pearson.html
+rank: 1 | docID: 138 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Distributed_hash_table.html
+rank: 1 | docID: 141 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lazy_deletion.html
+rank: 1 | docID: 243 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen.html
+rank: 1 | docID: 247 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rensselaer_Engineers.html
+echo "sports and soccer and game and ball" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|sports|and|soccer|and|game|and|ball|
+rank: 3 | docID: 229 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boardwalk_Hall.html
+rank: 1 | docID: 246 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St.html
+
+# test with ors
+echo "ors"
+ors
+echo "breadth or first" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|breadth|or|first|
+rank: 37 | docID: 243 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen.html
+rank: 28 | docID: 253 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Williams_College.html
+rank: 25 | docID: 2 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+rank: 25 | docID: 76 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tail-sharing.html
+rank: 25 | docID: 102 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Motorola_6800.html
+rank: 25 | docID: 221 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Saint_Anselm_College.html
+rank: 25 | docID: 252 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_William_%26_Mary.html
+rank: 24 | docID: 47 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_tree.html
+rank: 24 | docID: 56 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Functional_programming_language.html
+rank: 21 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 21 | docID: 247 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rensselaer_Engineers.html
+rank: 20 | docID: 74 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_programming_language.html
+rank: 20 | docID: 101 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_(programming_language).html
+rank: 20 | docID: 106 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/LISP.html
+rank: 20 | docID: 154 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ruby_(programming_language).html
+rank: 20 | docID: 184 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CPU_cache.html
+rank: 20 | docID: 189 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Birthday_problem.html
+rank: 19 | docID: 212 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+rank: 18 | docID: 50 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(data_structure).html
+rank: 18 | docID: 125 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(abstract_data_type).html
+rank: 18 | docID: 162 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AWK.html
+rank: 17 | docID: 161 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Perl.html
+rank: 16 | docID: 149 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C%2b%2b11.html
+rank: 15 | docID: 57 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Programming_language.html
+rank: 15 | docID: 135 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Karl_Pearson.html
+rank: 15 | docID: 246 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St.html
+rank: 14 | docID: 21 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tree_(data_structure).html
+rank: 14 | docID: 107 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linguistics.html
+rank: 14 | docID: 250 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clarkson_Golden_Knights.html
+rank: 14 | docID: 254 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Wellesley_College.html
+rank: 13 | docID: 233 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Houston_Field_House.html
+rank: 12 | docID: 71 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/FIFO_(computing).html
+rank: 12 | docID: 110 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Machine_translation.html
+rank: 12 | docID: 121 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_structure.html
+rank: 12 | docID: 196 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Prime_number.html
+rank: 12 | docID: 255 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Swarthmore_College.html
+rank: 11 | docID: 27 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bit_array.html
+rank: 11 | docID: 186 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequence.html
+rank: 10 | docID: 32 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_queue.html
+rank: 10 | docID: 70 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_sharing.html
+rank: 10 | docID: 111 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Turing_Award.html
+rank: 10 | docID: 167 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Spell_checker.html
+rank: 10 | docID: 199 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Power_of_two.html
+rank: 10 | docID: 244 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St-3.html
+rank: 9 | docID: 30 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Priority_queue.html
+rank: 9 | docID: 38 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Donald_Knuth.html
+rank: 9 | docID: 112 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/UNESCO.html
+rank: 9 | docID: 155 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/JavaScript.html
+rank: 9 | docID: 174 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Java_(programming_language).html
+rank: 8 | docID: 49 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(data_structure).html
+rank: 8 | docID: 52 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Index_(database).html
+rank: 8 | docID: 58 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big-O_notation.html
+rank: 8 | docID: 124 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(abstract_data_type).html
+rank: 8 | docID: 201 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Database_index.html
+rank: 8 | docID: 208 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big_O_notation.html
+rank: 8 | docID: 229 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boardwalk_Hall.html
+rank: 7 | docID: 37 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Maurice_Vincent_Wilkes.html
+rank: 7 | docID: 83 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Josephus_problem.html
+rank: 7 | docID: 145 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Arthur_Samuel.html
+rank: 7 | docID: 203 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Table_(computing).html
+rank: 6 | docID: 13 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fibonacci_heap.html
+rank: 6 | docID: 54 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Car_and_cdr-2.html
+rank: 6 | docID: 97 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Null_pointer.html
+rank: 6 | docID: 100 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CAR_and_CDR.html
+rank: 6 | docID: 140 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pearson_hashing.html
+rank: 6 | docID: 142 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Extendible_hashing.html
+rank: 6 | docID: 150 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Library_(computing).html
+rank: 6 | docID: 156 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Python_(programming_language).html
+rank: 6 | docID: 160 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/PHP.html
+rank: 6 | docID: 207 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computing.html
+rank: 5 | docID: 20 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/B-tree.html
+rank: 5 | docID: 41 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Introduction_to_Algorithms.html
+rank: 5 | docID: 53 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_search.html
+rank: 5 | docID: 99 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Doubly_linked_list.html
+rank: 5 | docID: 117 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Herbert_A.html
+rank: 5 | docID: 128 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+rank: 5 | docID: 190 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Constant_time.html
+rank: 5 | docID: 209 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_complexity.html
+rank: 5 | docID: 245 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St-2.html
+rank: 4 | docID: 3 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Main_Page.html
+rank: 4 | docID: 8 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Trie.html
+rank: 4 | docID: 14 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binomial_heap.html
+rank: 4 | docID: 15 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_heap.html
+rank: 4 | docID: 16 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Splay_tree.html
+rank: 4 | docID: 28 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Disjoint-set_data_structure.html
+rank: 4 | docID: 34 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Container_(abstract_data_type).html
+rank: 4 | docID: 44 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Book_Number.html
+rank: 4 | docID: 81 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AVL_tree.html
+rank: 4 | docID: 92 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fragmentation_(computer).html
+rank: 4 | docID: 116 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/RAND_Corporation.html
+rank: 4 | docID: 130 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/NIST.html
+rank: 4 | docID: 169 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_hashing.html
+rank: 4 | docID: 171 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Monotonic_function.html
+rank: 4 | docID: 178 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Coalesced_hashing.html
+rank: 3 | docID: 5 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_decision_diagram.html
+rank: 3 | docID: 6 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graph_(abstract_data_type).html
+rank: 3 | docID: 26 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Circular_buffer.html
+rank: 3 | docID: 39 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Digital_object_identifier.html
+rank: 3 | docID: 55 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cons.html
+rank: 3 | docID: 62 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Parallel_array.html
+rank: 3 | docID: 69 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Round-robin_scheduling.html
+rank: 3 | docID: 73 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Polygon.html
+rank: 3 | docID: 79 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Recursion.html
+rank: 3 | docID: 90 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heapsort.html
+rank: 3 | docID: 95 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_array.html
+rank: 3 | docID: 105 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Communications_of_the_ACM.html
+rank: 3 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+rank: 3 | docID: 122 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/S-expression.html
+rank: 3 | docID: 139 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bloom_filter.html
+rank: 3 | docID: 144 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rabin%e2%80%93Karp_string_search_algorithm.html
+rank: 3 | docID: 146 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Gene_Amdahl.html
+rank: 3 | docID: 152 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Expression_tree.html
+rank: 3 | docID: 180 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Quadratic_probing.html
+rank: 3 | docID: 193 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Modulo_operation.html
+rank: 3 | docID: 198 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mask_(computing).html
+rank: 3 | docID: 200 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cache_(computing).html
+rank: 3 | docID: 227 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_Saint_Mary_Magdalen.html
+rank: 3 | docID: 228 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Colby%e2%80%93Sawyer_College.html
+rank: 3 | docID: 242 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen_ice_hockey.html
+rank: 3 | docID: 251 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/ECAC_Hockey.html
+rank: 2 | docID: 19 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_search_tree.html
+rank: 2 | docID: 40 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_H.html
+rank: 2 | docID: 43 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Charles_E-2.html
+rank: 2 | docID: 46 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heap_(data_structure).html
+rank: 2 | docID: 72 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_buffer.html
+rank: 2 | docID: 87 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boolean_value.html
+rank: 2 | docID: 108 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Victor_Yngve.html
+rank: 2 | docID: 115 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Information_Processing_Language.html
+rank: 2 | docID: 133 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Serial_Number.html
+rank: 2 | docID: 138 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Distributed_hash_table.html
+rank: 2 | docID: 159 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Disk_drive.html
+rank: 2 | docID: 170 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Consistent_hashing.html
+rank: 2 | docID: 182 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_perfect_hashing.html
+rank: 2 | docID: 187 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graceful_degradation.html
+rank: 2 | docID: 194 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cryptographic_hash_function.html
+rank: 2 | docID: 205 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_function.html
+rank: 2 | docID: 218 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Keene_State_College.html
+rank: 2 | docID: 231 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Achilles_Rink.html
+rank: 1 | docID: 9 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hilbert_R-tree.html
+rank: 1 | docID: 12 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R-tree.html
+rank: 1 | docID: 17 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red%e2%80%93black_tree.html
+rank: 1 | docID: 18 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AA_tree.html
+rank: 1 | docID: 23 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_data_structure.html
+rank: 1 | docID: 29 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_(abstract_data_type).html
+rank: 1 | docID: 33 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_priority_queue.html
+rank: 1 | docID: 35 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Collection_(abstract_data_type).html
+rank: 1 | docID: 42 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ronald_L.html
+rank: 1 | docID: 48 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skip_list.html
+rank: 1 | docID: 51 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skew_binary_number_system.html
+rank: 1 | docID: 60 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Serialization.html
+rank: 1 | docID: 61 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Free_list.html
+rank: 1 | docID: 63 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_type.html
+rank: 1 | docID: 75 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Persistent_data_structure.html
+rank: 1 | docID: 77 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Iteration.html
+rank: 1 | docID: 78 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Merge_algorithm.html
+rank: 1 | docID: 80 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red-black_tree.html
+rank: 1 | docID: 85 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unrolled_linked_list.html
+rank: 1 | docID: 93 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Amortized_analysis.html
+rank: 1 | docID: 98 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/XOR_linked_list.html
+rank: 1 | docID: 103 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Technical_Systems_Consultants.html
+rank: 1 | docID: 104 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/MIT_Lincoln_Laboratory.html
+rank: 1 | docID: 109 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Natural_language.html
+rank: 1 | docID: 113 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/General_Problem_Solver.html
+rank: 1 | docID: 118 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cliff_Shaw.html
+rank: 1 | docID: 120 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_access.html
+rank: 1 | docID: 132 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pedro_Celis.html
+rank: 1 | docID: 134 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Robin_Plackett.html
+rank: 1 | docID: 137 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_array_mapped_trie.html
+rank: 1 | docID: 141 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lazy_deletion.html
+rank: 1 | docID: 147 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Daniel_J.html
+rank: 1 | docID: 148 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unordered_map_(C%2b%2b).html
+rank: 1 | docID: 157 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_data_structure.html
+rank: 1 | docID: 163 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_(computing).html
+rank: 1 | docID: 166 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Finite_automata.html
+rank: 1 | docID: 168 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_variable.html
+rank: 1 | docID: 172 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Real-time_system.html
+rank: 1 | docID: 173 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Space-time_tradeoff.html
+rank: 1 | docID: 175 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hopscotch_hashing.html
+rank: 1 | docID: 177 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cuckoo_hashing.html
+rank: 1 | docID: 179 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double_hashing.html
+rank: 1 | docID: 183 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Translation_lookaside_buffer.html
+rank: 1 | docID: 192 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Denial_of_service_attack.html
+rank: 1 | docID: 195 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Open_addressing.html
+rank: 1 | docID: 220 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_More_College_of_Liberal_Arts.html
+rank: 1 | docID: 222 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/New_Hampshire_Institute_of_Art.html
+rank: 1 | docID: 224 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mount_Washington_College.html
+rank: 1 | docID: 232 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Appleton_Arena.html
+rank: 1 | docID: 237 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lynah_Rink.html
+rank: 1 | docID: 241 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchwomen_ice_hockey.html
+echo "cat or dog or mouse" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|cat|or|dog|or|mouse|
+rank: 5 | docID: 252 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_William_%26_Mary.html
+rank: 2 | docID: 155 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/JavaScript.html
+rank: 2 | docID: 196 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Prime_number.html
+rank: 1 | docID: 102 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Motorola_6800.html
+rank: 1 | docID: 107 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linguistics.html
+rank: 1 | docID: 110 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Machine_translation.html
+rank: 1 | docID: 130 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/NIST.html
+rank: 1 | docID: 162 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AWK.html
+echo "jelly or peanut or butter" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|jelly|or|peanut|or|butter|
+rank: 1 | docID: 75 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Persistent_data_structure.html
+
+# test with no ands/ors
+echo "no and/or"
+no and/or
+echo "breadth first search" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|breadth|first|search|
+rank: 8 | docID: 47 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_tree.html
+rank: 3 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 2 | docID: 21 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tree_(data_structure).html
+rank: 1 | docID: 5 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_decision_diagram.html
+rank: 1 | docID: 6 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graph_(abstract_data_type).html
+rank: 1 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+echo "cat dog" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|cat|dog|
+No documents match
+echo "just kidding       " | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|just|kidding|
+No documents match
+
+# test with both ands/ors
+echo "both and/or"
+both and/or
+echo "breadth and first or search" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|breadth|and|first|or|search|
+rank: 76 | docID: 19 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_search_tree.html
+rank: 44 | docID: 53 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_search.html
+rank: 32 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 31 | docID: 20 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/B-tree.html
+rank: 26 | docID: 17 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red%e2%80%93black_tree.html
+rank: 26 | docID: 80 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red-black_tree.html
+rank: 25 | docID: 16 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Splay_tree.html
+rank: 24 | docID: 8 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Trie.html
+rank: 21 | docID: 12 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R-tree.html
+rank: 21 | docID: 47 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_tree.html
+rank: 19 | docID: 204 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Search_tree.html
+rank: 18 | docID: 94 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Self-balancing_binary_search_tree.html
+rank: 18 | docID: 128 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+rank: 18 | docID: 144 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rabin%e2%80%93Karp_string_search_algorithm.html
+rank: 15 | docID: 21 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tree_(data_structure).html
+rank: 15 | docID: 48 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skip_list.html
+rank: 14 | docID: 18 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AA_tree.html
+rank: 14 | docID: 45 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Self-organizing_list.html
+rank: 13 | docID: 52 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Index_(database).html
+rank: 13 | docID: 201 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Database_index.html
+rank: 13 | docID: 205 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_function.html
+rank: 12 | docID: 2 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+rank: 12 | docID: 9 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hilbert_R-tree.html
+rank: 12 | docID: 76 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tail-sharing.html
+rank: 11 | docID: 30 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Priority_queue.html
+rank: 11 | docID: 81 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AVL_tree.html
+rank: 10 | docID: 138 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Distributed_hash_table.html
+rank: 10 | docID: 203 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Table_(computing).html
+rank: 9 | docID: 29 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_(abstract_data_type).html
+rank: 9 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+rank: 9 | docID: 157 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_data_structure.html
+rank: 9 | docID: 180 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Quadratic_probing.html
+rank: 9 | docID: 190 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Constant_time.html
+rank: 9 | docID: 209 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_complexity.html
+rank: 8 | docID: 10 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R%2b_tree.html
+rank: 8 | docID: 46 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heap_(data_structure).html
+rank: 8 | docID: 178 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Coalesced_hashing.html
+rank: 7 | docID: 11 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R__tree.html
+rank: 7 | docID: 23 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_data_structure.html
+rank: 7 | docID: 58 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big-O_notation.html
+rank: 7 | docID: 149 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C%2b%2b11.html
+rank: 7 | docID: 150 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Library_(computing).html
+rank: 7 | docID: 196 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Prime_number.html
+rank: 7 | docID: 208 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big_O_notation.html
+rank: 6 | docID: 6 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graph_(abstract_data_type).html
+rank: 6 | docID: 7 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_tree_(persistent_data_structure).html
+rank: 6 | docID: 22 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Association_list.html
+rank: 6 | docID: 141 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lazy_deletion.html
+rank: 6 | docID: 179 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double_hashing.html
+rank: 6 | docID: 192 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Denial_of_service_attack.html
+rank: 5 | docID: 44 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Book_Number.html
+rank: 5 | docID: 75 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Persistent_data_structure.html
+rank: 5 | docID: 121 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_structure.html
+rank: 5 | docID: 123 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Associative_array.html
+rank: 5 | docID: 139 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bloom_filter.html
+rank: 5 | docID: 171 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Monotonic_function.html
+rank: 5 | docID: 175 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hopscotch_hashing.html
+rank: 5 | docID: 176 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/2-choice_hashing.html
+rank: 5 | docID: 183 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Translation_lookaside_buffer.html
+rank: 4 | docID: 5 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_decision_diagram.html
+rank: 4 | docID: 13 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fibonacci_heap.html
+rank: 4 | docID: 15 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_heap.html
+rank: 4 | docID: 28 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Disjoint-set_data_structure.html
+rank: 4 | docID: 31 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Multimap.html
+rank: 4 | docID: 33 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_priority_queue.html
+rank: 4 | docID: 63 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_type.html
+rank: 4 | docID: 64 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Append.html
+rank: 4 | docID: 66 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sentinel_value.html
+rank: 4 | docID: 79 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Recursion.html
+rank: 4 | docID: 95 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_array.html
+rank: 4 | docID: 120 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_access.html
+rank: 4 | docID: 133 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Serial_Number.html
+rank: 4 | docID: 142 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Extendible_hashing.html
+rank: 4 | docID: 145 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Arthur_Samuel.html
+rank: 4 | docID: 147 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Daniel_J.html
+rank: 4 | docID: 161 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Perl.html
+rank: 4 | docID: 169 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_hashing.html
+rank: 4 | docID: 177 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cuckoo_hashing.html
+rank: 4 | docID: 181 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_probing.html
+rank: 4 | docID: 182 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_perfect_hashing.html
+rank: 4 | docID: 191 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Perfect_hash_function.html
+rank: 4 | docID: 195 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Open_addressing.html
+rank: 4 | docID: 200 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cache_(computing).html
+rank: 4 | docID: 221 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Saint_Anselm_College.html
+rank: 4 | docID: 253 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Williams_College.html
+rank: 3 | docID: 4 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Directed_acyclic_word_graph.html
+rank: 3 | docID: 14 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binomial_heap.html
+rank: 3 | docID: 24 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sparse_array.html
+rank: 3 | docID: 25 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hashed_array_tree.html
+rank: 3 | docID: 26 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Circular_buffer.html
+rank: 3 | docID: 27 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bit_array.html
+rank: 3 | docID: 32 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_queue.html
+rank: 3 | docID: 34 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Container_(abstract_data_type).html
+rank: 3 | docID: 35 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Collection_(abstract_data_type).html
+rank: 3 | docID: 37 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Maurice_Vincent_Wilkes.html
+rank: 3 | docID: 38 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Donald_Knuth.html
+rank: 3 | docID: 49 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(data_structure).html
+rank: 3 | docID: 50 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(data_structure).html
+rank: 3 | docID: 57 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Programming_language.html
+rank: 3 | docID: 61 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Free_list.html
+rank: 3 | docID: 85 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unrolled_linked_list.html
+rank: 3 | docID: 90 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heapsort.html
+rank: 3 | docID: 91 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequential_access.html
+rank: 3 | docID: 98 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/XOR_linked_list.html
+rank: 3 | docID: 99 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Doubly_linked_list.html
+rank: 3 | docID: 110 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Machine_translation.html
+rank: 3 | docID: 113 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/General_Problem_Solver.html
+rank: 3 | docID: 122 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/S-expression.html
+rank: 3 | docID: 124 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(abstract_data_type).html
+rank: 3 | docID: 125 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(abstract_data_type).html
+rank: 3 | docID: 126 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Abstract_data_type.html
+rank: 3 | docID: 127 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_structure.html
+rank: 3 | docID: 155 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/JavaScript.html
+rank: 3 | docID: 156 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Python_(programming_language).html
+rank: 3 | docID: 160 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/PHP.html
+rank: 3 | docID: 165 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Judy_array.html
+rank: 3 | docID: 167 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Spell_checker.html
+rank: 3 | docID: 194 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cryptographic_hash_function.html
+rank: 3 | docID: 207 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computing.html
+rank: 3 | docID: 214 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/New_Hampshire_Technical_Institute.html
+rank: 3 | docID: 227 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_Saint_Mary_Magdalen.html
+rank: 3 | docID: 243 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen.html
+rank: 3 | docID: 252 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_William_%26_Mary.html
+rank: 2 | docID: 3 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Main_Page.html
+rank: 2 | docID: 36 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dictionary_of_Algorithms_and_Data_Structures.html
+rank: 2 | docID: 39 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Digital_object_identifier.html
+rank: 2 | docID: 40 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_H.html
+rank: 2 | docID: 41 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Introduction_to_Algorithms.html
+rank: 2 | docID: 42 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ronald_L.html
+rank: 2 | docID: 43 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Charles_E-2.html
+rank: 2 | docID: 51 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skew_binary_number_system.html
+rank: 2 | docID: 54 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Car_and_cdr-2.html
+rank: 2 | docID: 55 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cons.html
+rank: 2 | docID: 56 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Functional_programming_language.html
+rank: 2 | docID: 59 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_memory_allocation.html
+rank: 2 | docID: 60 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Serialization.html
+rank: 2 | docID: 62 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Parallel_array.html
+rank: 2 | docID: 65 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Asymptotic_time_complexity.html
+rank: 2 | docID: 67 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pseudocode.html
+rank: 2 | docID: 68 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Quad-edge_data_structure.html
+rank: 2 | docID: 69 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Round-robin_scheduling.html
+rank: 2 | docID: 70 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_sharing.html
+rank: 2 | docID: 71 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/FIFO_(computing).html
+rank: 2 | docID: 72 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_buffer.html
+rank: 2 | docID: 73 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Polygon.html
+rank: 2 | docID: 74 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_programming_language.html
+rank: 2 | docID: 77 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Iteration.html
+rank: 2 | docID: 78 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Merge_algorithm.html
+rank: 2 | docID: 82 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Parallel_algorithm.html
+rank: 2 | docID: 83 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Josephus_problem.html
+rank: 2 | docID: 84 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CDR_coding.html
+rank: 2 | docID: 86 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Memory_pool.html
+rank: 2 | docID: 87 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boolean_value.html
+rank: 2 | docID: 88 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Character_(computing).html
+rank: 2 | docID: 89 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Locality_of_reference.html
+rank: 2 | docID: 92 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fragmentation_(computer).html
+rank: 2 | docID: 93 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Amortized_analysis.html
+rank: 2 | docID: 96 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sentinel_node.html
+rank: 2 | docID: 97 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Null_pointer.html
+rank: 2 | docID: 100 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CAR_and_CDR.html
+rank: 2 | docID: 101 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_(programming_language).html
+rank: 2 | docID: 102 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Motorola_6800.html
+rank: 2 | docID: 103 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Technical_Systems_Consultants.html
+rank: 2 | docID: 104 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/MIT_Lincoln_Laboratory.html
+rank: 2 | docID: 105 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Communications_of_the_ACM.html
+rank: 2 | docID: 106 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/LISP.html
+rank: 2 | docID: 107 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linguistics.html
+rank: 2 | docID: 108 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Victor_Yngve.html
+rank: 2 | docID: 109 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Natural_language.html
+rank: 2 | docID: 111 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Turing_Award.html
+rank: 2 | docID: 112 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/UNESCO.html
+rank: 2 | docID: 115 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Information_Processing_Language.html
+rank: 2 | docID: 116 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/RAND_Corporation.html
+rank: 2 | docID: 117 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Herbert_A.html
+rank: 2 | docID: 118 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cliff_Shaw.html
+rank: 2 | docID: 129 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/ICI_programming_language.html
+rank: 2 | docID: 130 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/NIST.html
+rank: 2 | docID: 131 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sartaj_Sahni.html
+rank: 2 | docID: 132 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pedro_Celis.html
+rank: 2 | docID: 134 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Robin_Plackett.html
+rank: 2 | docID: 135 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Karl_Pearson.html
+rank: 2 | docID: 136 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clifford_Stein.html
+rank: 2 | docID: 137 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_array_mapped_trie.html
+rank: 2 | docID: 140 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pearson_hashing.html
+rank: 2 | docID: 143 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stable_hashing.html
+rank: 2 | docID: 146 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Gene_Amdahl.html
+rank: 2 | docID: 148 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unordered_map_(C%2b%2b).html
+rank: 2 | docID: 151 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_interning.html
+rank: 2 | docID: 152 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Expression_tree.html
+rank: 2 | docID: 153 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_consing.html
+rank: 2 | docID: 154 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ruby_(programming_language).html
+rank: 2 | docID: 158 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dbm.html
+rank: 2 | docID: 159 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Disk_drive.html
+rank: 2 | docID: 162 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AWK.html
+rank: 2 | docID: 163 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_(computing).html
+rank: 2 | docID: 164 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Black_hat_hacking.html
+rank: 2 | docID: 166 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Finite_automata.html
+rank: 2 | docID: 168 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_variable.html
+rank: 2 | docID: 170 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Consistent_hashing.html
+rank: 2 | docID: 172 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Real-time_system.html
+rank: 2 | docID: 173 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Space-time_tradeoff.html
+rank: 2 | docID: 174 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Java_(programming_language).html
+rank: 2 | docID: 184 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CPU_cache.html
+rank: 2 | docID: 185 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Move-to-front_heuristic.html
+rank: 2 | docID: 186 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequence.html
+rank: 2 | docID: 187 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graceful_degradation.html
+rank: 2 | docID: 188 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/SUHA.html
+rank: 2 | docID: 189 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Birthday_problem.html
+rank: 2 | docID: 193 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Modulo_operation.html
+rank: 2 | docID: 197 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Uniform_distribution_(discrete).html
+rank: 2 | docID: 198 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mask_(computing).html
+rank: 2 | docID: 199 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Power_of_two.html
+rank: 2 | docID: 202 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Software.html
+rank: 2 | docID: 206 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unique_key.html
+rank: 2 | docID: 210 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_tree_(disambiguation).html
+rank: 2 | docID: 211 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_list.html
+rank: 2 | docID: 212 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+rank: 2 | docID: 213 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/White_Mountains_Community_College.html
+rank: 2 | docID: 215 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Nashua_Community_College.html
+rank: 2 | docID: 216 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Manchester_Community_College_(New_Hampshire).html
+rank: 2 | docID: 217 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Community_College_System_of_New_Hampshire.html
+rank: 2 | docID: 218 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Keene_State_College.html
+rank: 2 | docID: 219 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Granite_State_College.html
+rank: 2 | docID: 220 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_More_College_of_Liberal_Arts.html
+rank: 2 | docID: 222 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/New_Hampshire_Institute_of_Art.html
+rank: 2 | docID: 223 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/New_England_College.html
+rank: 2 | docID: 224 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mount_Washington_College.html
+rank: 2 | docID: 225 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lebanon_College.html
+rank: 2 | docID: 226 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Daniel_Webster_College.html
+rank: 2 | docID: 228 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Colby%e2%80%93Sawyer_College.html
+rank: 2 | docID: 229 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boardwalk_Hall.html
+rank: 2 | docID: 230 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ingalls_Rink.html
+rank: 2 | docID: 231 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Achilles_Rink.html
+rank: 2 | docID: 232 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Appleton_Arena.html
+rank: 2 | docID: 233 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Houston_Field_House.html
+rank: 2 | docID: 234 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/TD_Bank_Sports_Center.html
+rank: 2 | docID: 235 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hobey_Baker_Memorial_Rink.html
+rank: 2 | docID: 236 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bright_Hockey_Center.html
+rank: 2 | docID: 237 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lynah_Rink.html
+rank: 2 | docID: 238 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Starr_Arena.html
+rank: 2 | docID: 239 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cheel_Arena.html
+rank: 2 | docID: 240 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Meehan_Auditorium.html
+rank: 2 | docID: 241 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchwomen_ice_hockey.html
+rank: 2 | docID: 242 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen_ice_hockey.html
+rank: 2 | docID: 244 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St-3.html
+rank: 2 | docID: 245 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St-2.html
+rank: 2 | docID: 246 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St.html
+rank: 2 | docID: 247 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rensselaer_Engineers.html
+rank: 2 | docID: 248 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Quinnipiac_Bobcats.html
+rank: 2 | docID: 249 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Colgate_Raiders.html
+rank: 2 | docID: 250 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clarkson_Golden_Knights.html
+rank: 2 | docID: 251 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/ECAC_Hockey.html
+rank: 2 | docID: 254 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Wellesley_College.html
+rank: 2 | docID: 255 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Swarthmore_College.html
+echo "computer and science or cat and dogs" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|computer|and|science|or|cat|and|dogs|
+rank: 50 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 46 | docID: 207 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computing.html
+rank: 28 | docID: 38 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Donald_Knuth.html
+rank: 22 | docID: 117 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Herbert_A.html
+rank: 19 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+rank: 12 | docID: 58 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big-O_notation.html
+rank: 12 | docID: 166 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Finite_automata.html
+rank: 12 | docID: 208 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big_O_notation.html
+rank: 10 | docID: 139 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bloom_filter.html
+rank: 10 | docID: 163 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_(computing).html
+rank: 9 | docID: 40 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_H.html
+rank: 9 | docID: 43 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Charles_E-2.html
+rank: 9 | docID: 79 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Recursion.html
+rank: 9 | docID: 111 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Turing_Award.html
+rank: 8 | docID: 188 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/SUHA.html
+rank: 8 | docID: 255 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Swarthmore_College.html
+rank: 7 | docID: 74 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_programming_language.html
+rank: 7 | docID: 97 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Null_pointer.html
+rank: 7 | docID: 101 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_(programming_language).html
+rank: 7 | docID: 106 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/LISP.html
+rank: 7 | docID: 131 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sartaj_Sahni.html
+rank: 7 | docID: 136 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clifford_Stein.html
+rank: 6 | docID: 37 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Maurice_Vincent_Wilkes.html
+rank: 6 | docID: 57 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Programming_language.html
+rank: 6 | docID: 105 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Communications_of_the_ACM.html
+rank: 6 | docID: 153 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_consing.html
+rank: 6 | docID: 246 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St.html
+rank: 5 | docID: 17 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red%e2%80%93black_tree.html
+rank: 5 | docID: 22 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Association_list.html
+rank: 5 | docID: 42 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ronald_L.html
+rank: 5 | docID: 80 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red-black_tree.html
+rank: 5 | docID: 104 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/MIT_Lincoln_Laboratory.html
+rank: 5 | docID: 107 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linguistics.html
+rank: 5 | docID: 116 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/RAND_Corporation.html
+rank: 5 | docID: 212 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+rank: 5 | docID: 247 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rensselaer_Engineers.html
+rank: 4 | docID: 2 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+rank: 4 | docID: 4 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Directed_acyclic_word_graph.html
+rank: 4 | docID: 16 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Splay_tree.html
+rank: 4 | docID: 56 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Functional_programming_language.html
+rank: 4 | docID: 76 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tail-sharing.html
+rank: 4 | docID: 78 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Merge_algorithm.html
+rank: 4 | docID: 121 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_structure.html
+rank: 4 | docID: 128 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+rank: 4 | docID: 130 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/NIST.html
+rank: 4 | docID: 141 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lazy_deletion.html
+rank: 4 | docID: 147 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Daniel_J.html
+rank: 4 | docID: 177 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cuckoo_hashing.html
+rank: 4 | docID: 181 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_probing.html
+rank: 4 | docID: 186 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequence.html
+rank: 3 | docID: 7 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_tree_(persistent_data_structure).html
+rank: 3 | docID: 12 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R-tree.html
+rank: 3 | docID: 29 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_(abstract_data_type).html
+rank: 3 | docID: 30 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Priority_queue.html
+rank: 3 | docID: 31 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Multimap.html
+rank: 3 | docID: 36 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dictionary_of_Algorithms_and_Data_Structures.html
+rank: 3 | docID: 47 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_tree.html
+rank: 3 | docID: 50 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(data_structure).html
+rank: 3 | docID: 81 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AVL_tree.html
+rank: 3 | docID: 84 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CDR_coding.html
+rank: 3 | docID: 95 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_array.html
+rank: 3 | docID: 125 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(abstract_data_type).html
+rank: 3 | docID: 132 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pedro_Celis.html
+rank: 3 | docID: 138 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Distributed_hash_table.html
+rank: 3 | docID: 150 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Library_(computing).html
+rank: 3 | docID: 151 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_interning.html
+rank: 3 | docID: 157 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_data_structure.html
+rank: 3 | docID: 190 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Constant_time.html
+rank: 3 | docID: 199 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Power_of_two.html
+rank: 3 | docID: 204 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Search_tree.html
+rank: 3 | docID: 205 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_function.html
+rank: 3 | docID: 209 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_complexity.html
+rank: 3 | docID: 215 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Nashua_Community_College.html
+rank: 3 | docID: 221 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Saint_Anselm_College.html
+rank: 3 | docID: 225 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lebanon_College.html
+rank: 3 | docID: 250 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clarkson_Golden_Knights.html
+rank: 2 | docID: 5 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_decision_diagram.html
+rank: 2 | docID: 6 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graph_(abstract_data_type).html
+rank: 2 | docID: 10 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R%2b_tree.html
+rank: 2 | docID: 19 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_search_tree.html
+rank: 2 | docID: 25 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hashed_array_tree.html
+rank: 2 | docID: 35 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Collection_(abstract_data_type).html
+rank: 2 | docID: 41 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Introduction_to_Algorithms.html
+rank: 2 | docID: 44 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Book_Number.html
+rank: 2 | docID: 46 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heap_(data_structure).html
+rank: 2 | docID: 48 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skip_list.html
+rank: 2 | docID: 49 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(data_structure).html
+rank: 2 | docID: 63 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_type.html
+rank: 2 | docID: 66 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sentinel_value.html
+rank: 2 | docID: 67 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pseudocode.html
+rank: 2 | docID: 70 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_sharing.html
+rank: 2 | docID: 71 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/FIFO_(computing).html
+rank: 2 | docID: 82 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Parallel_algorithm.html
+rank: 2 | docID: 96 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sentinel_node.html
+rank: 2 | docID: 124 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(abstract_data_type).html
+rank: 2 | docID: 129 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/ICI_programming_language.html
+rank: 2 | docID: 143 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stable_hashing.html
+rank: 2 | docID: 182 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_perfect_hashing.html
+rank: 2 | docID: 187 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graceful_degradation.html
+rank: 2 | docID: 216 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Manchester_Community_College_(New_Hampshire).html
+rank: 2 | docID: 218 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Keene_State_College.html
+rank: 1 | docID: 1 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/
+rank: 1 | docID: 8 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Trie.html
+rank: 1 | docID: 11 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R__tree.html
+rank: 1 | docID: 13 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fibonacci_heap.html
+rank: 1 | docID: 14 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binomial_heap.html
+rank: 1 | docID: 18 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AA_tree.html
+rank: 1 | docID: 20 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/B-tree.html
+rank: 1 | docID: 21 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tree_(data_structure).html
+rank: 1 | docID: 23 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_data_structure.html
+rank: 1 | docID: 24 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sparse_array.html
+rank: 1 | docID: 32 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_queue.html
+rank: 1 | docID: 33 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_priority_queue.html
+rank: 1 | docID: 34 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Container_(abstract_data_type).html
+rank: 1 | docID: 52 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Index_(database).html
+rank: 1 | docID: 53 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_search.html
+rank: 1 | docID: 55 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cons.html
+rank: 1 | docID: 59 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_memory_allocation.html
+rank: 1 | docID: 60 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Serialization.html
+rank: 1 | docID: 65 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Asymptotic_time_complexity.html
+rank: 1 | docID: 72 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_buffer.html
+rank: 1 | docID: 73 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Polygon.html
+rank: 1 | docID: 83 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Josephus_problem.html
+rank: 1 | docID: 87 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boolean_value.html
+rank: 1 | docID: 89 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Locality_of_reference.html
+rank: 1 | docID: 90 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heapsort.html
+rank: 1 | docID: 91 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequential_access.html
+rank: 1 | docID: 93 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Amortized_analysis.html
+rank: 1 | docID: 94 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Self-balancing_binary_search_tree.html
+rank: 1 | docID: 99 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Doubly_linked_list.html
+rank: 1 | docID: 102 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Motorola_6800.html
+rank: 1 | docID: 110 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Machine_translation.html
+rank: 1 | docID: 113 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/General_Problem_Solver.html
+rank: 1 | docID: 120 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_access.html
+rank: 1 | docID: 123 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Associative_array.html
+rank: 1 | docID: 126 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Abstract_data_type.html
+rank: 1 | docID: 127 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_structure.html
+rank: 1 | docID: 135 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Karl_Pearson.html
+rank: 1 | docID: 144 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rabin%e2%80%93Karp_string_search_algorithm.html
+rank: 1 | docID: 145 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Arthur_Samuel.html
+rank: 1 | docID: 156 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Python_(programming_language).html
+rank: 1 | docID: 164 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Black_hat_hacking.html
+rank: 1 | docID: 165 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Judy_array.html
+rank: 1 | docID: 168 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_variable.html
+rank: 1 | docID: 172 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Real-time_system.html
+rank: 1 | docID: 173 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Space-time_tradeoff.html
+rank: 1 | docID: 174 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Java_(programming_language).html
+rank: 1 | docID: 191 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Perfect_hash_function.html
+rank: 1 | docID: 196 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Prime_number.html
+rank: 1 | docID: 198 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mask_(computing).html
+rank: 1 | docID: 201 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Database_index.html
+rank: 1 | docID: 203 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Table_(computing).html
+rank: 1 | docID: 210 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_tree_(disambiguation).html
+rank: 1 | docID: 211 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_list.html
+rank: 1 | docID: 243 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen.html
+echo "beauty and the beast or pizza slice" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+|beauty|and|the|beast|or|pizza|slice|
+No documents match
+
+# test with numbers and special characters
+echo "specials"
+specials
+echo "??? okay" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+invalid query syntax
+echo "the 7 deadly sins" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+invalid query syntax
+echo "my name is ****" | ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+invalid query syntax
+
+
+# test with valgrind
+echo "valgrind"
+valgrind
+echo "this and that" | valgrind --leak-check=full --track-origins=yes ./querier ~/cs50-dev/shared/tse/output/wikipedia-2 ~/cs50-dev/shared/tse/output/wikipedia-2.index
+==2589219== Memcheck, a memory error detector
+==2589219== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2589219== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==2589219== Command: ./querier /thayerfs/home/f006bd4/cs50-dev/shared/tse/output/wikipedia-2 /thayerfs/home/f006bd4/cs50-dev/shared/tse/output/wikipedia-2.index
+==2589219== 
+|this|and|that|
+rank: 112 | docID: 149 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/C%2b%2b11.html
+rank: 66 | docID: 97 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Null_pointer.html
+rank: 65 | docID: 184 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CPU_cache.html
+rank: 59 | docID: 174 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Java_(programming_language).html
+rank: 58 | docID: 2 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_list.html
+rank: 58 | docID: 76 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tail-sharing.html
+rank: 57 | docID: 196 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Prime_number.html
+rank: 55 | docID: 50 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(data_structure).html
+rank: 55 | docID: 125 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Stack_(abstract_data_type).html
+rank: 53 | docID: 17 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red%e2%80%93black_tree.html
+rank: 53 | docID: 80 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Red-black_tree.html
+rank: 51 | docID: 74 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_programming_language.html
+rank: 51 | docID: 101 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lisp_(programming_language).html
+rank: 51 | docID: 106 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/LISP.html
+rank: 47 | docID: 114 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Artificial_intelligence.html
+rank: 47 | docID: 155 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/JavaScript.html
+rank: 43 | docID: 128 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_table.html
+rank: 41 | docID: 102 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Motorola_6800.html
+rank: 41 | docID: 107 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linguistics.html
+rank: 38 | docID: 110 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Machine_translation.html
+rank: 38 | docID: 205 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_function.html
+rank: 37 | docID: 243 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen.html
+rank: 36 | docID: 192 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Denial_of_service_attack.html
+rank: 35 | docID: 161 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Perl.html
+rank: 33 | docID: 126 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Abstract_data_type.html
+rank: 33 | docID: 189 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Birthday_problem.html
+rank: 33 | docID: 194 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cryptographic_hash_function.html
+rank: 32 | docID: 139 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bloom_filter.html
+rank: 32 | docID: 221 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Saint_Anselm_College.html
+rank: 31 | docID: 160 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/PHP.html
+rank: 31 | docID: 163 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_(computing).html
+rank: 30 | docID: 57 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Programming_language.html
+rank: 29 | docID: 58 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big-O_notation.html
+rank: 29 | docID: 154 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ruby_(programming_language).html
+rank: 29 | docID: 162 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AWK.html
+rank: 29 | docID: 190 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Constant_time.html
+rank: 29 | docID: 208 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Big_O_notation.html
+rank: 29 | docID: 209 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_complexity.html
+rank: 28 | docID: 56 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Functional_programming_language.html
+rank: 28 | docID: 168 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_variable.html
+rank: 28 | docID: 186 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequence.html
+rank: 27 | docID: 20 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/B-tree.html
+rank: 27 | docID: 47 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_tree.html
+rank: 27 | docID: 60 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Serialization.html
+rank: 26 | docID: 150 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Library_(computing).html
+rank: 24 | docID: 187 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graceful_degradation.html
+rank: 23 | docID: 63 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_type.html
+rank: 23 | docID: 79 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Recursion.html
+rank: 23 | docID: 92 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fragmentation_(computer).html
+rank: 23 | docID: 121 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Array_data_structure.html
+rank: 23 | docID: 203 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Table_(computing).html
+rank: 22 | docID: 9 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hilbert_R-tree.html
+rank: 22 | docID: 26 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Circular_buffer.html
+rank: 22 | docID: 73 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Polygon.html
+rank: 22 | docID: 199 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Power_of_two.html
+rank: 21 | docID: 75 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Persistent_data_structure.html
+rank: 20 | docID: 8 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Trie.html
+rank: 20 | docID: 89 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Locality_of_reference.html
+rank: 20 | docID: 164 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Black_hat_hacking.html
+rank: 20 | docID: 200 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cache_(computing).html
+rank: 19 | docID: 15 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_heap.html
+rank: 19 | docID: 21 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Tree_(data_structure).html
+rank: 19 | docID: 28 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Disjoint-set_data_structure.html
+rank: 19 | docID: 52 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Index_(database).html
+rank: 19 | docID: 156 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Python_(programming_language).html
+rank: 19 | docID: 201 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Database_index.html
+rank: 18 | docID: 167 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Spell_checker.html
+rank: 17 | docID: 112 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/UNESCO.html
+rank: 17 | docID: 117 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Herbert_A.html
+rank: 16 | docID: 12 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R-tree.html
+rank: 16 | docID: 13 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Fibonacci_heap.html
+rank: 16 | docID: 16 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Splay_tree.html
+rank: 16 | docID: 19 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_search_tree.html
+rank: 16 | docID: 83 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Josephus_problem.html
+rank: 16 | docID: 123 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Associative_array.html
+rank: 16 | docID: 138 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Distributed_hash_table.html
+rank: 16 | docID: 212 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dartmouth_College.html
+rank: 16 | docID: 246 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St.html
+rank: 15 | docID: 27 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Bit_array.html
+rank: 15 | docID: 70 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Time_sharing.html
+rank: 15 | docID: 172 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Real-time_system.html
+rank: 15 | docID: 206 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unique_key.html
+rank: 14 | docID: 30 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Priority_queue.html
+rank: 14 | docID: 39 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Digital_object_identifier.html
+rank: 14 | docID: 166 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Finite_automata.html
+rank: 14 | docID: 198 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mask_(computing).html
+rank: 14 | docID: 247 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rensselaer_Engineers.html
+rank: 14 | docID: 252 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_William_%26_Mary.html
+rank: 13 | docID: 44 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Book_Number.html
+rank: 13 | docID: 144 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Rabin%e2%80%93Karp_string_search_algorithm.html
+rank: 13 | docID: 171 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Monotonic_function.html
+rank: 13 | docID: 183 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Translation_lookaside_buffer.html
+rank: 12 | docID: 18 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AA_tree.html
+rank: 12 | docID: 29 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_(abstract_data_type).html
+rank: 12 | docID: 45 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Self-organizing_list.html
+rank: 12 | docID: 48 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skip_list.html
+rank: 12 | docID: 53 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_search.html
+rank: 12 | docID: 135 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Karl_Pearson.html
+rank: 12 | docID: 157 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Set_data_structure.html
+rank: 12 | docID: 253 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Williams_College.html
+rank: 12 | docID: 255 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Swarthmore_College.html
+rank: 11 | docID: 87 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boolean_value.html
+rank: 11 | docID: 99 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Doubly_linked_list.html
+rank: 10 | docID: 23 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linked_data_structure.html
+rank: 10 | docID: 88 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Character_(computing).html
+rank: 10 | docID: 90 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heapsort.html
+rank: 10 | docID: 94 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Self-balancing_binary_search_tree.html
+rank: 10 | docID: 109 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Natural_language.html
+rank: 10 | docID: 177 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cuckoo_hashing.html
+rank: 10 | docID: 180 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Quadratic_probing.html
+rank: 10 | docID: 193 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Modulo_operation.html
+rank: 10 | docID: 202 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Software.html
+rank: 10 | docID: 207 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Computing.html
+rank: 10 | docID: 250 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clarkson_Golden_Knights.html
+rank: 9 | docID: 81 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/AVL_tree.html
+rank: 9 | docID: 195 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Open_addressing.html
+rank: 9 | docID: 204 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Search_tree.html
+rank: 9 | docID: 233 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Houston_Field_House.html
+rank: 8 | docID: 5 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binary_decision_diagram.html
+rank: 8 | docID: 24 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sparse_array.html
+rank: 8 | docID: 49 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(data_structure).html
+rank: 8 | docID: 55 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cons.html
+rank: 8 | docID: 119 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Allen_Newell.html
+rank: 8 | docID: 122 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/S-expression.html
+rank: 8 | docID: 124 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Queue_(abstract_data_type).html
+rank: 8 | docID: 142 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Extendible_hashing.html
+rank: 8 | docID: 176 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/2-choice_hashing.html
+rank: 8 | docID: 178 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Coalesced_hashing.html
+rank: 8 | docID: 254 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Wellesley_College.html
+rank: 7 | docID: 3 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Main_Page.html
+rank: 7 | docID: 11 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R__tree.html
+rank: 7 | docID: 14 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Binomial_heap.html
+rank: 7 | docID: 32 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_queue.html
+rank: 7 | docID: 38 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Donald_Knuth.html
+rank: 7 | docID: 46 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Heap_(data_structure).html
+rank: 7 | docID: 67 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pseudocode.html
+rank: 7 | docID: 69 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Round-robin_scheduling.html
+rank: 7 | docID: 95 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_array.html
+rank: 7 | docID: 104 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/MIT_Lincoln_Laboratory.html
+rank: 7 | docID: 120 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Random_access.html
+rank: 7 | docID: 130 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/NIST.html
+rank: 7 | docID: 151 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/String_interning.html
+rank: 7 | docID: 159 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Disk_drive.html
+rank: 7 | docID: 251 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/ECAC_Hockey.html
+rank: 6 | docID: 6 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Graph_(abstract_data_type).html
+rank: 6 | docID: 37 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Maurice_Vincent_Wilkes.html
+rank: 6 | docID: 59 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_memory_allocation.html
+rank: 6 | docID: 72 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_buffer.html
+rank: 6 | docID: 82 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Parallel_algorithm.html
+rank: 6 | docID: 93 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Amortized_analysis.html
+rank: 6 | docID: 98 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/XOR_linked_list.html
+rank: 6 | docID: 127 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Data_structure.html
+rank: 6 | docID: 147 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Daniel_J.html
+rank: 6 | docID: 175 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hopscotch_hashing.html
+rank: 6 | docID: 211 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_list.html
+rank: 5 | docID: 35 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Collection_(abstract_data_type).html
+rank: 5 | docID: 71 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/FIFO_(computing).html
+rank: 5 | docID: 77 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Iteration.html
+rank: 5 | docID: 85 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unrolled_linked_list.html
+rank: 5 | docID: 91 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sequential_access.html
+rank: 5 | docID: 111 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Turing_Award.html
+rank: 5 | docID: 115 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Information_Processing_Language.html
+rank: 5 | docID: 116 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/RAND_Corporation.html
+rank: 5 | docID: 145 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Arthur_Samuel.html
+rank: 5 | docID: 170 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Consistent_hashing.html
+rank: 5 | docID: 179 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double_hashing.html
+rank: 5 | docID: 191 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Perfect_hash_function.html
+rank: 5 | docID: 245 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St-2.html
+rank: 4 | docID: 66 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sentinel_value.html
+rank: 4 | docID: 68 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Quad-edge_data_structure.html
+rank: 4 | docID: 78 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Merge_algorithm.html
+rank: 4 | docID: 105 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Communications_of_the_ACM.html
+rank: 4 | docID: 140 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pearson_hashing.html
+rank: 4 | docID: 153 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_consing.html
+rank: 4 | docID: 169 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_hashing.html
+rank: 4 | docID: 185 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Move-to-front_heuristic.html
+rank: 4 | docID: 188 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/SUHA.html
+rank: 4 | docID: 218 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Keene_State_College.html
+rank: 4 | docID: 224 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Mount_Washington_College.html
+rank: 3 | docID: 7 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_tree_(persistent_data_structure).html
+rank: 3 | docID: 22 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Association_list.html
+rank: 3 | docID: 42 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ronald_L.html
+rank: 3 | docID: 51 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Skew_binary_number_system.html
+rank: 3 | docID: 62 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Parallel_array.html
+rank: 3 | docID: 137 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Hash_array_mapped_trie.html
+rank: 3 | docID: 141 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lazy_deletion.html
+rank: 3 | docID: 146 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Gene_Amdahl.html
+rank: 3 | docID: 152 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Expression_tree.html
+rank: 3 | docID: 158 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dbm.html
+rank: 3 | docID: 182 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Dynamic_perfect_hashing.html
+rank: 3 | docID: 215 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Nashua_Community_College.html
+rank: 3 | docID: 216 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Manchester_Community_College_(New_Hampshire).html
+rank: 3 | docID: 222 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/New_Hampshire_Institute_of_Art.html
+rank: 3 | docID: 228 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Colby%e2%80%93Sawyer_College.html
+rank: 3 | docID: 237 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lynah_Rink.html
+rank: 2 | docID: 4 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Directed_acyclic_word_graph.html
+rank: 2 | docID: 10 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/R%2b_tree.html
+rank: 2 | docID: 34 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Container_(abstract_data_type).html
+rank: 2 | docID: 43 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Charles_E-2.html
+rank: 2 | docID: 113 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/General_Problem_Solver.html
+rank: 2 | docID: 132 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Pedro_Celis.html
+rank: 2 | docID: 165 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Judy_array.html
+rank: 2 | docID: 181 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Linear_probing.html
+rank: 2 | docID: 197 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Uniform_distribution_(discrete).html
+rank: 2 | docID: 219 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Granite_State_College.html
+rank: 2 | docID: 225 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Lebanon_College.html
+rank: 2 | docID: 226 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Daniel_Webster_College.html
+rank: 2 | docID: 227 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/The_College_of_Saint_Mary_Magdalen.html
+rank: 2 | docID: 234 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/TD_Bank_Sports_Center.html
+rank: 1 | docID: 31 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Multimap.html
+rank: 1 | docID: 33 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Double-ended_priority_queue.html
+rank: 1 | docID: 40 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_H.html
+rank: 1 | docID: 54 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Car_and_cdr-2.html
+rank: 1 | docID: 65 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Asymptotic_time_complexity.html
+rank: 1 | docID: 84 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CDR_coding.html
+rank: 1 | docID: 86 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Memory_pool.html
+rank: 1 | docID: 96 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Sentinel_node.html
+rank: 1 | docID: 100 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/CAR_and_CDR.html
+rank: 1 | docID: 108 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Victor_Yngve.html
+rank: 1 | docID: 118 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Cliff_Shaw.html
+rank: 1 | docID: 133 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/International_Standard_Serial_Number.html
+rank: 1 | docID: 136 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Clifford_Stein.html
+rank: 1 | docID: 148 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Unordered_map_(C%2b%2b).html
+rank: 1 | docID: 173 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Space-time_tradeoff.html
+rank: 1 | docID: 213 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/White_Mountains_Community_College.html
+rank: 1 | docID: 214 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/New_Hampshire_Technical_Institute.html
+rank: 1 | docID: 217 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Community_College_System_of_New_Hampshire.html
+rank: 1 | docID: 220 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Thomas_More_College_of_Liberal_Arts.html
+rank: 1 | docID: 229 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Boardwalk_Hall.html
+rank: 1 | docID: 230 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Ingalls_Rink.html
+rank: 1 | docID: 240 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Meehan_Auditorium.html
+rank: 1 | docID: 242 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/Union_Dutchmen_ice_hockey.html
+rank: 1 | docID: 244 | URL: http://cs50tse.cs.dartmouth.edu/tse/wikipedia/St-3.html
+==2589219== 
+==2589219== HEAP SUMMARY:
+==2589219==     in use at exit: 0 bytes in 0 blocks
+==2589219==   total heap usage: 1,380,046 allocs, 1,380,046 frees, 544,824,814 bytes allocated
+==2589219== 
+==2589219== All heap blocks were freed -- no leaks are possible
+==2589219== 
+==2589219== For lists of detected and suppressed errors, rerun with: -s
+==2589219== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
